@@ -1,0 +1,52 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+dist/
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+
+# Temporary files
+tmp/
+temp/
+
+# Build tools
+coverage/
+out/
+.cache/
+
+# Vercel/Next.js (if used for deployment)
+.vercel/
+now.json
+
+# Tests
+jest.config.js
+jest.setup.js
+coverage/
+
+# Others
+*.bak
+*.log
