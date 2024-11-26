@@ -1,5 +1,4 @@
 import pool from "../config/dbConfig";
-import { InternalServerError } from "../utils/errorResponses";
 
 class MovieModel {
   static async filterMovie () {

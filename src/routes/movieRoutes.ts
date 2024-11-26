@@ -4,6 +4,6 @@ import MovieController from "../controllers/movieController";
 
 const router = Router();
 
-router.get("/filter", asyncHandler(MovieController.filterMovie))
+router.get("/awards", asyncHandler(MovieController.filterMovie))
 
 export default router;
