@@ -23,7 +23,7 @@ const errorHandler = (err: any, req: Request, res: Response, next: NextFunction)
     // Handle generic errors
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: "An unexpected error occured.",
       error: process.env.NODE_ENV === 'development' ? err : {},
     });
   }

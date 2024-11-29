@@ -16,7 +16,7 @@ const asyncHandler = (
         next(err);
       } else {
         next(new InternalServerError("An unexpected error occurred."));
-      }
+      }   
     });
   };
 };
