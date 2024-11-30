@@ -4,10 +4,10 @@ export interface Movie {
   title: string,
   country: string,
   budget: number,
-  mpa_rating: string,
+  mpaRating: string,
   description: string,
-  released_year: number,
-  studio_id: number
+  releasedYear: number,
+  studioId: number
 }
 
 class MovieModel {
@@ -18,19 +18,33 @@ class MovieModel {
   static async insertMovie (movie: Movie) {
     await pool.query(
       `CALL insert_movie($1, $2, $3, $4, $5, $6, $7);`,
-      [movie.title, movie.country, movie.budget, movie.mpa_rating, movie.description,
-        movie.released_year, movie.studio_id]
+      [movie.title, movie.country, movie.budget, movie.mpaRating, movie.description,
+        movie.releasedYear, movie.studioId]
     )
   }
   static async updateMovie (id: number, movie: Partial<Movie>) {
     await pool.query(
       `CALL update_movie($1, $2, $3, $4, $5, $6, $7, $8);`,
-      [id, movie.title, movie.country, movie.budget, movie.mpa_rating, 
-        movie.description, movie.released_year, movie.studio_id]
+      [id, movie.title, movie.country, movie.budget, movie.mpaRating, 
+        movie.description, movie.releasedYear, movie.studioId]
     )
   }
   static async deleteMovie (id: number) {
     await pool.query(`CALL delete_movie($1);`, [id]);
+  }
+  static async filterMovie (
+    title: string | null, 
+    age: number | null, 
+    rating: number | null,
+    releasedYear: number | null,
+    countryName: string | null
+  ) {
+    const result = await pool.query(
+      `SELECT *
+      FROM call_get_movies_by_conditions($1, $2, $3, $4, $5)`, 
+      [title, age, rating, releasedYear, countryName]
+    )
+    return result.rows;
   }
 };
 

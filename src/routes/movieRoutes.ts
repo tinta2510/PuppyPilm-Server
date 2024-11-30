@@ -8,5 +8,5 @@ router.get("/awards", asyncHandler(MovieController.filterMovieByAwards));
 router.post("/", asyncHandler(MovieController.insertMovie));
 router.delete("/:id", asyncHandler(MovieController.deleteMovie));
 router.patch("/:id", asyncHandler(MovieController.updateMovie));
-
+router.get("/", asyncHandler(MovieController.filterMovie));
 export default router;

@@ -12,10 +12,10 @@ class MovieController {
       title: req.body.title,
       country: req.body.country,
       budget: req.body.budget,
-      mpa_rating: req.body.mpa_rating,
+      mpaRating: req.body.mpaRating,
       description: req.body.description,
-      released_year: req.body.released_year,
-      studio_id: req.body.studio_id
+      releasedYear: req.body.releasedYear,
+      studioId: req.body.studioId
     }
     await MovieModel.insertMovie(movie);
     return createdResponse(res, "Insert successfully");
@@ -29,14 +29,23 @@ class MovieController {
       title: req.body.title,
       country: req.body.country,
       budget: req.body.budget,
-      mpa_rating: req.body.mpa_rating,
+      mpaRating: req.body.mpaRating,
       description: req.body.description,
-      released_year: req.body.released_year,
-      studio_id: req.body.studio_id
+      releasedYear: req.body.releasedYear,
+      studioId: req.body.studioId
     }
     const id = parseInt(req.params.id);
     await MovieModel.updateMovie(id, movie);
     return okResponse(res, "Update successfully");
+  }
+  static async filterMovie(req: Request, res: Response) {
+    const title: string | null = typeof req.query.title === 'string' ? req.query.title : null;
+    const age: number | null = typeof req.query.age === 'string' ? parseInt(req.query.age) : null;
+    const rating: number | null = typeof req.query.rating === 'string' ? parseInt(req.query.rating) : null;
+    const releasedYear: number | null = typeof req.query.releasedYear === 'string' ? parseInt(req.query.releasedYear) : null;
+    const countryName: string | null = typeof req.query.countryName === 'string' ? req.query.countryName : null;
+    const result = await MovieModel.filterMovie(title, age, rating, releasedYear, countryName);
+    return okResponse(res, "Get movies by condition successfully", result);
   }
 };
 
