@@ -11,6 +11,10 @@ export interface Movie {
 }
 
 class MovieModel {
+  static async getAllMovies() {
+    const result = await pool.query(`SELECT * FROM movie;`)
+    return result.rows;
+  }
   static async filterMovieByAwards () {
     const result = await pool.query(`SELECT * FROM get_award_win_ratio();`);
     return result.rows;

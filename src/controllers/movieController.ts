@@ -47,6 +47,10 @@ class MovieController {
     const result = await MovieModel.filterMovie(title, age, rating, releasedYear, countryName);
     return okResponse(res, "Get movies by condition successfully", result);
   }
+  static async getAllMovies(req: Request, res: Response) {
+    const result = await MovieModel.getAllMovies();
+    return okResponse(res, "Get all movies successfully.", result);
+  }
 };
 
 export default MovieController; 
