@@ -15,10 +15,6 @@ export default class UserController {
       typeof req.query.goldPoint === 'string' ? 
       parseInt(req.query.goldPoint) : 10;
 
-    if (!(bronzePoint < silverPoint) && !(silverPoint < goldPoint)) {
-      throw new BadRequestError("Condition: bronzePoint < silverPoint < goldPoint.")
-    }
-
     const result = await UserModel.getRankings(bronzePoint, silverPoint, goldPoint);
     return okResponse(
       res, 
