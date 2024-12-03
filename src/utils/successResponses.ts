@@ -12,27 +12,31 @@ export const successResponse = (
   res: Response, 
   message: string = "Request successful.", 
   data: any = {}, 
+  meta: any = {},
   statusCode: number = 200
 ) => {
   return res.status(statusCode).json({
     success: true,
     message: message,
     data,
+    meta
   });
 };
 
 export const okResponse = (
   res: Response, 
   message: string = "Request successful.", 
-  data: any = {}
+  data: any = {},
+  meta: any = {},
 ) => {
-  return successResponse(res, message, data, 200);
+  return successResponse(res, message, data, meta, 200);
 };
 
 export const createdResponse = (
   res: Response,
   message: string = "Resource created successfully.",
   data: any = {},
+  meta: any = {}
 ) => {
-  return successResponse(res, message, data, 201);
+  return successResponse(res, message, data, meta,201);
 };
