@@ -1,8 +1,10 @@
 import pool from "../config/dbConfig";
+import { BadRequestError } from "../utils/errorResponses";
+import bcrypt from "bcryptjs";
 
 export interface User {
   id?: number;
-  username: string;
+  email: string;
   password: string;
   role: 'admin' | 'user';
 }
@@ -20,15 +22,15 @@ export default class UserModel {
     return result.rows;
   }
 
-  static async getUserByUsername(username: string): Promise<User | null> {
-    const result = await pool.query(`SELECT * FROM "USER" WHERE username = $1`, [username]);
+  static async getUserByEmail(email: string): Promise<User | null> {
+    const result = await pool.query(`SELECT * FROM "USER" WHERE email = $1`, [email]);
     return result.rows[0] || null;
   }
 
   static async createUser(user: User) {
     await pool.query(
-      `INSERT INTO "USER" (username, password, role) VALUES ($1, $2, $3)`,
-      [user.username, user.password, user.role]
+      `INSERT INTO "USER" (email, password, role) VALUES ($1, $2, $3)`,
+      [user.email, user.password, user.role]
     );
   }
 };

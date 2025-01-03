@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import "../types/express"; // Import the custom types
 import jwt from "jsonwebtoken";
 import { UnauthorizedError } from "../utils/errorResponses";
 
