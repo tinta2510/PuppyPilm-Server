@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { createdResponse, okResponse } from "../utils/successResponses";
-import UserModel from "../models/userModel";
+import UserModel, { User } from "../models/userModel";
 import { BadRequestError } from "../utils/errorResponses";
+import bcrypt from "bcryptjs";
 
 export default class UserController {
   static async getRankings(req: Request, res: Response) {
@@ -23,4 +24,12 @@ export default class UserController {
       { bronzePoint, silverPoint, goldPoint }
     );
   };
+
+  static async createUser(req: Request, res: Response) {
+    const { username, password, role } = req.body;
+    const hashedPassword = bcrypt.hashSync(password, 8);
+    const user: User = { username, password: hashedPassword, role };
+    await UserModel.createUser(user);
+    return createdResponse(res, "User created successfully");
+  }
 };

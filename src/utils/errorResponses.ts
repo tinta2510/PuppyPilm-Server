@@ -28,4 +28,9 @@ export class InternalServerError extends ErrorResponse {
   }
 }
 
-
+export class UnauthorizedError extends ErrorResponse {
+  constructor(message: string) {
+    super(message, 401);
+    Object.setPrototypeOf(this, UnauthorizedError.prototype);
+  }
+}
