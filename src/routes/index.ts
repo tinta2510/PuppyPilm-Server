@@ -2,7 +2,6 @@ import { Router, Request, Response } from 'express';
 import movieRoutes from "./movieRoutes";
 import userRoutes from "./userRoutes";
 import authRoutes from "./authRoutes";
-import { authenticate, authorize } from "../middlewares/authMiddleware";
 
 const router = Router();
 

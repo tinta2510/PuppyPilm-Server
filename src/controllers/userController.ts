@@ -26,25 +26,18 @@ export default class UserController {
   };
 
   static async createUser(req: Request, res: Response) {
-    const { email, password, role } = req.body;
-    if (!email) 
-      throw new BadRequestError("Email is required");
-    if (!password)
-      throw new BadRequestError("Password is required");
-
-    // Check if the email already exists
-    const existingUser = await UserModel.getUserByEmail(email);
-    if (existingUser)
-      throw new BadRequestError("Email already exists");
-
-    const hashedPassword = bcrypt.hashSync(password, 8);
-    const user: User = { email, password: hashedPassword, role: "user" };
-    await UserModel.createUser(user);
-    return createdResponse(res, "User created successfully");
+    await UserController.createUserHelper(req, res, "user");
   };
 
   static async createAdmin(req: Request, res: Response) {
-    const { email, password, role } = req.body;
+    if (req.user.role !== 'admin') {
+      throw new UnauthorizedError("Only admins can create another admin");
+    }
+    await UserController.createUserHelper(req, res, "admin");
+  }
+
+  private static async createUserHelper(req: Request, res: Response, role: 'admin' | 'user') {
+    const { email, password } = req.body;
     if (!email) 
       throw new BadRequestError("Email is required");
     if (!password)
@@ -55,14 +48,9 @@ export default class UserController {
     if (existingUser)
       throw new BadRequestError("Email already exists");
 
-    // // Check if the user creating the new user is an admin
-    // if (req.user.role !== 'admin') {
-    //   throw new UnauthorizedError("Only admins can create another admin");
-    // }
-
     // const hashedPassword = bcrypt.hashSync(password, 8); // Uncomment when use hashed password
-    const user: User = { email, password: password, role: "admin" };
+    const user: User = { email, password: password, role };
     await UserModel.createUser(user);
-    return createdResponse(res, "Admin created successfully");
+    return createdResponse(res, `${role} created successfully`);
   }
 };
