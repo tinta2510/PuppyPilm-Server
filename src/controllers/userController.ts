@@ -3,6 +3,7 @@ import { createdResponse, okResponse } from "../utils/successResponses";
 import UserModel, { User } from "../models/userModel";
 import { BadRequestError, UnauthorizedError } from "../utils/errorResponses";
 import bcrypt from "bcryptjs";
+import { isValidDate } from "../utils/formatValidator";
 
 export default class UserController {
   static async getRankings(req: Request, res: Response) {
@@ -37,7 +38,7 @@ export default class UserController {
   }
 
   private static async createUserHelper(req: Request, res: Response, role: 'admin' | 'user') {
-    const { email, password } = req.body;
+    const { email, password, displayedName, houseNumber, street, district, city, dob } = req.body;
     if (!email) 
       throw new BadRequestError("Email is required");
     if (!password)
@@ -48,8 +49,13 @@ export default class UserController {
     if (existingUser)
       throw new BadRequestError("Email already exists");
 
+    // Validate date format
+    if (dob && !isValidDate(dob)) {
+      throw new BadRequestError("Invalid date format. Expected format: YYYY-MM-DD");
+    }
+
     // const hashedPassword = bcrypt.hashSync(password, 8); // Uncomment when use hashed password
-    const user: User = { email, password: password, role };
+    const user: User = { email, password, displayedName, houseNumber, street, district, city, dob, role };
     await UserModel.createUser(user);
     return createdResponse(res, `${role} created successfully`);
   }
